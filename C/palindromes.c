@@ -1,52 +1,22 @@
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+int main() {
+    int n, reversedN = 0, remainder, originalN;
+    printf("Enter an integer: ");
+    scanf("%d", &n);
+    originalN = n;
 
-void trim(char *line)
-{
-    int new_line = strlen(line) -1;
-    if (line[new_line] == '\n')
-        line[new_line] = '\0';
-}
-
-void reverse(char *str)
-{
-    if (*str == 1)
-    {
-        return;
+    // reversed integer is stored in reversedN
+    while (n != 0) {
+        remainder = n % 10;
+        reversedN = reversedN * 10 + remainder;
+        n /= 10;
     }
 
-    char *start = str;
-    char *end = start + strlen(str) - 1; 
-    char temp;
+    // palindrome if orignalN and reversedN are equal
+    if (originalN == reversedN)
+        printf("%d is a palindrome.", originalN);
+    else
+        printf("%d is not a palindrome.", originalN);
 
-    while (end > start)
-    {
-        temp = *start;
-        *start = *end;
-        *end = temp;
-
-        ++start;
-        --end;
-    }
-}
-
-int main()
-{
-    FILE* fp;
-    char  line[26];
-    fp = fopen("/usr/share/dict/words", "r");
-    while (fgets(line, sizeof(line), fp) != NULL)
-    {
-        int linelen = strlen(line) + 1;
-        trim(line);
-        char word[linelen];
-        strcpy(word, line);
-        line[0] = tolower(line[0]);
-        char backwards[linelen];
-        strcpy(backwards, line);
-        reverse(backwards);
-        if (strcmp(line, backwards) == 0)
-            printf("%s is a palindrome\n", word);
-    }
+    return 0;
 }
